@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <title>Frontend Mentor | Results summary component</title>
+
+</head>
+<body>
+  <main>
+    <div class="parent">
+      <div class="card-container">
+        <div class="result">
+          <p class="result-heading">Your Result</p>
+          <div class="circle">
+            <p class="score">76</p>
+            <p>of 100</p>
+          </div>
+          <h3>Great</h3>
+          <p class="result-desc">You scored higher than 65% of the people who have taken these tests.</p>
+        </div>
+        <div class="summary">
+          <p class="summary-heading">Summary</p>
+          <div id="categories"></div>
+          <button class="continue-button">
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    fetch('data.json')
+      .then(response => response.json())
+      .then(data =>{
+        const container = document.getElementById('categories');
+        data.forEach(item => {
+          const holder = document.createElement('div');
+          holder.classList.add('holder');
+
+          const icon = document.createElement('img');
+          icon.setAttribute('src', item.icon);
+          icon.setAttribute('alt', 'icon');
+          holder.appendChild(icon);
+
+          const category = document.createElement('p');
+          category.classList.add('category-name');
+          category.textContent = item.category;
+          holder.appendChild(category);
+
+          const markContainer = document.createElement('div');
+          markContainer.classList.add('mark-container');
+          const m1 = document.createElement('span');
+          m1.classList.add('mark');
+          m1.textContent = item.score;
+          markContainer.appendChild(m1);
+          const m2 = document.createElement('span');
+          m2.textContent = '/';
+          markContainer.appendChild(m2);
+          const m3 = document.createElement('span');
+          m3.textContent = '100';
+          markContainer.appendChild(m3);
+          holder.appendChild(markContainer);
+
+          container.appendChild(holder);
+
+        });
+      })
+      .catch(error => console.log('Error here' + error));
+  </script>
+</body>
+</html>
